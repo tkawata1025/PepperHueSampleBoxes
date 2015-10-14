@@ -15,7 +15,7 @@
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
                     <Diagram>
-                        <Box name="HUE PUT" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="194" y="64">
+                        <Box name="HUE PUT" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="344" y="63">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -42,8 +42,10 @@ class MyClass(GeneratedClass):
         headers = {'content-type': 'application/json'}
 
         ip = self.getParameter("HUE Bridge IPAddr")
+        auid = self.getParameter("authorized user id")
         lid = self.getParameter("light ID")
-        url = "http://%s/lights/%s/state" % (ip, lid)
+        url = "http://%s/api/%s/lights/%s/state" % (ip,auid,lid)
+        self.logger.info(url)
         data = json.dumps({"on" : self.getParameter("On"),"sat":self.getParameter("sat"),"bri":self.getParameter("bri"),"hue":self.getParameter("hue")})
         r = requests.put(url, data, headers=headers)
         if r != None:
@@ -59,13 +61,14 @@ class MyClass(GeneratedClass):
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                             <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
                             <Parameter name="HUE Bridge IPAddr" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" />
-                            <Parameter name="light ID" inherits_from_parent="0" content_type="1" value="0" default_value="0" min="0" max="100" tooltip="" id="6" />
-                            <Parameter name="On" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="7" />
-                            <Parameter name="sat" inherits_from_parent="0" content_type="1" value="255" default_value="255" min="0" max="255" tooltip="" id="8" />
-                            <Parameter name="bri" inherits_from_parent="0" content_type="1" value="255" default_value="255" min="0" max="255" tooltip="" id="9" />
-                            <Parameter name="hue" inherits_from_parent="0" content_type="1" value="10000" default_value="10000" min="0" max="65535" tooltip="" id="10" />
+                            <Parameter name="authorized user id" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="6" />
+                            <Parameter name="light ID" inherits_from_parent="0" content_type="1" value="0" default_value="0" min="0" max="100" tooltip="" id="7" />
+                            <Parameter name="On" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="8" />
+                            <Parameter name="sat" inherits_from_parent="0" content_type="1" value="255" default_value="255" min="0" max="255" tooltip="" id="9" />
+                            <Parameter name="bri" inherits_from_parent="0" content_type="1" value="255" default_value="255" min="0" max="255" tooltip="" id="10" />
+                            <Parameter name="hue" inherits_from_parent="0" content_type="1" value="10000" default_value="10000" min="0" max="65535" tooltip="" id="11" />
                         </Box>
-                        <Box name="Log" id="3" localization="8" tooltip="Prompt the message in the debug window. You can set a prefix and a priority&#x0A;for the message in the parameters." x="350" y="187">
+                        <Box name="Log" id="3" localization="8" tooltip="Prompt the message in the debug window. You can set a prefix and a priority&#x0A;for the message in the parameters." x="498" y="189">
                             <bitmap>media/images/box/print.png</bitmap>
                             <script language="4">
                                 <content>
@@ -113,7 +116,7 @@ class MyClass(GeneratedClass):
                                 <Choice value="Debug" />
                             </Parameter>
                         </Box>
-                        <Box name="HUE GET" id="2" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="199" y="189">
+                        <Box name="HUE GET" id="2" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="352" y="191">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -140,8 +143,9 @@ class MyClass(GeneratedClass):
         headers = {'content-type': 'application/json'}
 
         ip = self.getParameter("HUE Bridge IPAddr")
+        auid = self.getParameter("authorized user id")
         lid = self.getParameter("light ID")
-        url = "http://%s/lights/%s/state" % (ip, lid)
+        url = "http://%s/api/%s/lights/%s/state" % (ip,auid,lid)
 
         r = requests.get(url, headers=headers)
         if r != None:
@@ -157,7 +161,58 @@ class MyClass(GeneratedClass):
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                             <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
                             <Parameter name="HUE Bridge IPAddr" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" />
-                            <Parameter name="light ID" inherits_from_parent="0" content_type="1" value="0" default_value="0" min="0" max="100" tooltip="" id="6" />
+                            <Parameter name="authorized user id" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="6" />
+                            <Parameter name="light ID" inherits_from_parent="0" content_type="1" value="0" default_value="0" min="0" max="100" tooltip="" id="7" />
+                        </Box>
+                        <Box name="Comment" id="4" localization="8" tooltip="To comment your behavior. Enter the text here and move the box where you like&#x0A;to add the comment.&#x0A;&#x0A;Note: This box is not functional and has no effect on the behavior." plugin="textedit_plugin" x="313" y="345">
+                            <bitmap>media/images/box/box-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[# /!\ Generated content. Do not edit!
+class MyClass(GeneratedClass):
+	def __init__(self):
+		GeneratedClass.__init__(self)
+
+	def onInput_onStart(self):
+		self.onStopped("HUE PUT ボックスは HUE を点灯、消灯するボックスです。\nHUE GET ボックスは HUE の点灯、消灯の情報を取得するボックスです。\n\nそれぞれボックスプロパティー HUE Bridge IPAddr に HUE ブリッジの IP アドレスを\nauthorized user id には登録し取得された user ID を設定します。\n")]]>
+</content>
+                            </script>
+                            <pluginContent>
+                                <text>
+                                    <![CDATA[HUE PUT ボックスは HUE を点灯、消灯するボックスです。
+HUE GET ボックスは HUE の点灯、消灯の情報を取得するボックスです。
+
+それぞれボックスプロパティー HUE Bridge IPAddr に HUE ブリッジの IP アドレスを
+authorized user id には登録し取得された user ID を設定します。
+]]>
+</text>
+                            </pluginContent>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
+                        </Box>
+                        <Box name="Comment (1)" id="5" localization="8" tooltip="To comment your behavior. Enter the text here and move the box where you like&#x0A;to add the comment.&#x0A;&#x0A;Note: This box is not functional and has no effect on the behavior." plugin="textedit_plugin" x="51" y="49">
+                            <bitmap>media/images/box/box-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[# /!\ Generated content. Do not edit!
+class MyClass(GeneratedClass):
+	def __init__(self):
+		GeneratedClass.__init__(self)
+
+	def onInput_onStart(self):
+		self.onStopped("このサンプルは requests モジュールを必要とします。\n\nディレクトリ PepperHueSampleBoxes 配下で次を実行し、モジュールをプロジェクトに取り込みます\n\npip install requests --target ./lib --no-compile\n")]]>
+</content>
+                            </script>
+                            <pluginContent>
+                                <text>
+                                    <![CDATA[このサンプルは requests モジュールを必要とします。
+
+ディレクトリ PepperHueSampleBoxes 配下で次を実行し、モジュールをプロジェクトに取り込みます
+
+pip install requests --target ./lib --no-compile
+]]>
+</text>
+                            </pluginContent>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
                         </Box>
                         <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="4" />
                     </Diagram>
