@@ -7,6 +7,9 @@ HUE GET ボックスは HUE の点灯、消灯の情報を取得するボック�
 それぞれボックスプロパティー HUE Bridge IPAddr に HUE ブリッジの IP アドレスを
 authorized user id には登録し取得された user ID を設定します。
 
+それぞれの値の取得方法は次を確認ください
+http://www.developers.meethue.com/documentation/getting-started
+
 このサンプルは requests モジュールを必要とします。
 
 ディレクトリ PepperHueSampleBoxes 配下で次を実行し、モジュールをプロジェクトに取り込みます
